@@ -7,8 +7,8 @@
 		techStack: ['SvelteKit', 'TypeScript', 'Tailwind CSS', 'mdsvex'],
 		role: 'solo',
 		domain: 'software',
-		repoUrl: 'https://github.com/malghnei/malghnei.github.io',
-		demoUrl: 'https://malghnei.github.io/'
+		repoUrl: 'https://github.com/Malghnei/Web-Portfolio',
+		demoUrl: 'https://malikalghneimin.dev/'
 	};
 </script>
 
