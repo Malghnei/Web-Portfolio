@@ -1,8 +1,8 @@
 {
-	"name": "malghnei.github.io",
+	"name": "web-portfolio",
 	"private": true,
 	"version": "0.0.1",
-	"homepage": "https://{username}.github.io/",
+	"homepage": "https://malikalghneimin.dev/",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
