@@ -15,6 +15,7 @@
 		isEditableTarget,
 		resolveKey,
 		resolveTimeout,
+		LEADER_TIMEOUT_MS,
 		SEQUENCE_TIMEOUT_MS,
 		type KeyAction
 	} from '$lib/editor/keymap';
@@ -28,6 +29,20 @@
 	// Home is a start screen with no preview pane.
 	const home = $derived(page.url.pathname === '/');
 
+	const TITLES: Record<string, string> = {
+		'/': siteContent.name,
+		'/about/': `about · ${siteContent.name}`,
+		'/projects/': `projects · ${siteContent.name}`,
+		'/terminal/': `terminal · ${siteContent.name}`
+	};
+	// Unlisted paths (project pages, the 404) fall back to the name; project pages override it below.
+	const pageTitle = $derived(
+		page.url.pathname.startsWith('/projects/') && page.url.pathname !== '/projects/' && !page.error
+			? null
+			: (TITLES[page.url.pathname] ?? siteContent.name)
+	);
+	const DESCRIPTION = `${siteContent.name}, a third-year Computer Science student at Western University interested in cybersecurity, machine learning, and embedded systems. ${siteContent.status}.`;
+
 	// A getter, so readers always see the dictionary for the current data.
 	const dict = $derived(buildDictionary(data.projects));
 	setRefsContext({
@@ -39,8 +54,12 @@
 	let buffer = $state<ReturnType<typeof Buffer> | undefined>();
 	let pending = '';
 	let pendingTimer: ReturnType<typeof setTimeout> | undefined;
+	const setPending = (keys: string) => {
+		pending = keys;
+		editor.pendingKeys = keys;
+	};
 
-	const runAction = (action: KeyAction) => {
+	const runAction = async (action: KeyAction) => {
 		switch (action.type) {
 			case 'motion':
 				return buffer?.motion(action.motion, action.count);
@@ -58,6 +77,11 @@
 				return goto(action.path);
 			case 'toggleTerminal':
 				return toggleTerminal();
+			case 'search':
+				// Search lives on /projects; from elsewhere, go there first.
+				if (page.url.pathname !== '/projects/') await goto('/projects/');
+				document.getElementById('project-search')?.focus();
+				return;
 			case 'toggleHelp':
 				editor.helpOpen = !editor.helpOpen;
 				return;
@@ -99,18 +123,20 @@
 			visual: editor.visual !== null,
 			home
 		});
-		pending = '';
+		setPending('');
 		clearTimeout(pendingTimer);
 
 		if (result.kind === 'passthrough') return;
 		if (result.kind === 'pending') {
 			event.preventDefault();
-			pending = result.pending;
+			setPending(result.pending);
+			// The leader waits longer, so its which-key popup can be read before it closes.
+			const wait = result.pending === ' ' ? LEADER_TIMEOUT_MS : SEQUENCE_TIMEOUT_MS;
 			pendingTimer = setTimeout(() => {
 				const action = resolveTimeout(pending);
-				pending = '';
+				setPending('');
 				if (action) runAction(action);
-			}, SEQUENCE_TIMEOUT_MS);
+			}, wait);
 			return;
 		}
 		// Escape stays unprevented so it can still close browser UI.
@@ -123,8 +149,11 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>Malik's Portfolio</title>
-	<meta name="description" content="Welcome to my Web Portfolio" />
+	<!-- Project pages set their own title and description. -->
+	{#if pageTitle}
+		<title>{pageTitle}</title>
+		<meta name="description" content={DESCRIPTION} />
+	{/if}
 </svelte:head>
 
 <div class="app">

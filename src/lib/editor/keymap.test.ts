@@ -95,6 +95,11 @@ describe('resolveKey: everything else', () => {
 		expect(resolveKey('', key('?'))).toEqual(action({ type: 'toggleHelp' }));
 	});
 
+	it('searches with /, but not while typing', () => {
+		expect(resolveKey('', key('/'))).toEqual(action({ type: 'search' }));
+		expect(resolveKey('', key('/', { inEditable: true }))).toEqual(passthrough);
+	});
+
 	it('opens the preview target with Enter, but not while typing', () => {
 		expect(resolveKey('', key('Enter'))).toEqual(action({ type: 'open' }));
 		expect(resolveKey('', key('Enter', { inEditable: true }))).toEqual(passthrough);

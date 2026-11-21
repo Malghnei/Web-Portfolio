@@ -11,6 +11,8 @@ export const editor = $state({
 	// One-shot status bar text, e.g. "3 lines yanked"; cleared on the next key.
 	message: null as string | null,
 	helpOpen: false,
+	// Keys typed toward an unfinished sequence (a count, g, or the Space leader), shown as showcmd.
+	pendingKeys: '',
 	preview: null as PreviewTarget | null,
 	terminal: { status: 'closed' as TerminalStatus, maximized: false }
 });

@@ -38,7 +38,10 @@
 	>
 		?<span class="hide-sm">{' '}keys</span>
 	</button>
-	<span class="seg right hide-sm">utf-8</span>
+	<!-- showcmd: the keys typed so far, as nvim shows them while it waits for the rest. -->
+	{#if editor.pendingKeys}
+		<span class="seg right showcmd" aria-hidden="true">{editor.pendingKeys === ' ' ? '␣' : editor.pendingKeys}</span>
+	{/if}
 	<span class="seg right hide-sm">md</span>
 	<span class="seg right pos">{editor.cursorLine}:{editor.cursorCol}</span>
 	<!-- Touch has no cursor, so the position's place goes to the contact links. -->
@@ -109,6 +112,10 @@
 		color: var(--nord-6);
 	}
 
+	.showcmd {
+		color: var(--nord-13);
+	}
+
 	.statusbar .contact {
 		display: none;
 		color: var(--nord-8);
@@ -150,8 +157,9 @@
 		}
 	}
 
+	/* Two classes so the touch rule below (.seg { display: flex }) can't bring these back. */
 	@media (max-width: 639px) {
-		.hide-sm {
+		.statusbar .hide-sm {
 			display: none;
 		}
 	}

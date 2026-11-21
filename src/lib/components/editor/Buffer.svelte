@@ -459,14 +459,13 @@
 
 <!-- tabindex: lets keyboard users focus the scroll area so arrows/PageDown work natively -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-<div
+<main
 	class="buffer"
 	bind:this={scroller}
 	{onscroll}
 	{onscrollend}
 	{onfocusin}
 	tabindex="0"
-	role="region"
 	aria-label="page content"
 >
 	<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
@@ -487,7 +486,7 @@
 			<span>~</span>
 		{/each}
 	</div>
-</div>
+</main>
 
 <style>
 	.buffer {

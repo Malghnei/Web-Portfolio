@@ -16,6 +16,11 @@
 	const next = $derived(index >= 0 ? data.projects[index + 1] : undefined);
 </script>
 
+<svelte:head>
+	<title>{data.project.title} · Malik Alghneimin</title>
+	<meta name="description" content={data.project.summary} />
+</svelte:head>
+
 <h1>{data.project.title}</h1>
 <p class="fm">---</p>
 <p><span class="fm-key">summary:</span> {data.project.summary}</p>
@@ -42,6 +47,11 @@
 	</p>
 {/if}
 <Blank />
+<!-- The screenshot leads the body: evidence before prose. Wrapped in a p so it counts as a buffer line. -->
+{#if data.project.preview}
+	<p class="shot"><img src={data.project.preview} alt={`Screenshot of ${data.project.title}`} /></p>
+	<Blank />
+{/if}
 {#key data.project.slug}
 	<div class="project-body">
 		<data.project.component />
@@ -62,6 +72,11 @@
 
 	.fm-key {
 		color: var(--nord-9);
+	}
+
+	.shot img {
+		display: block;
+		border: 1px solid var(--nord-3);
 	}
 
 	.fm-links {
