@@ -7,13 +7,13 @@
 	let { project }: { project: ProjectFrontmatter } = $props();
 </script>
 
-<!-- Four numbered lines: ┌─ title ── role · domain · period ┐ / summary / meta / └──┘ -->
+<!-- Four numbered lines: ┌─ title ── role · period ┐ / summary / meta / └──┘ -->
 <article class="card" data-preview={encodeTarget({ kind: 'project', slug: project.slug })}>
 	<span class="line edge">
 		<span class="label title-wrap"
 			><a class="title" href={`/projects/${project.slug}/`}>{project.title}</a></span
 		>
-		<span class="label period">{project.role} · {project.domain} · {logPeriod(project.period)}</span>
+		<span class="label period">{project.role} · {logPeriod(project.period)}</span>
 	</span>
 	<span class="line row">{project.summary}</span>
 	<span class="line row meta">
@@ -172,8 +172,8 @@
 		margin: 0 0 0 1ch;
 	}
 
-	/* Title plus "contribution · software · 2026-04" no longer fits one line: the top edge keeps
-	   the title, the bottom edge takes the date, and role/type stay on the filters and the page. */
+	/* Title plus "contribution · 2026-04" no longer fits one line: the top edge keeps
+	   the title, the bottom edge takes the date, and the role stays on the filter and the page. */
 	@container buffer (width < 560px) {
 		.edge:first-child .period {
 			display: none;
