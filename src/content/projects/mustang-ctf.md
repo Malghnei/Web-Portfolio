@@ -6,9 +6,7 @@
 		period: 'Dec. 2026',
 		techStack: ['C++', 'Qt'],
 		role: 'solo',
-		domain: 'software',
-		repoUrl: 'https://github.com/malghnei/',
-		demoUrl: ''
+		domain: 'software'
 	};
 </script>
 

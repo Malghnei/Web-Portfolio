@@ -12,7 +12,7 @@
 	};
 </script>
 
-## The Problem
+## The problem
 
 Does pizza go with mayonnaise? Sushi? A hot dog? Humanity has wrestled with these questions for centuries. Condimental settles them.
 

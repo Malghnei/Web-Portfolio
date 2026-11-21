@@ -18,7 +18,7 @@ Enemies close in, each carrying a word. Type the word to take the enemy out, and
 ## Context
 We built it as a team of five for "Introduction to Software Engineering" in my second year of university, with 2–3 weeks from start to finish.
 
-## What I Learnt
+## What I learnt
 - Java fundamentals
 - Working in a shared codebase with Git and GitLab
 - Applying the software development life cycle (SDLC) under a real deadline
