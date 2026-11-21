@@ -2,6 +2,7 @@
 	import Blank from '$lib/components/editor/Blank.svelte';
 	import ExtLink from '$lib/components/refs/ExtLink.svelte';
 	import TechRef from '$lib/components/refs/TechRef.svelte';
+	import { logPeriod } from '$lib/data/experience';
 	import { setRefExclude } from '$lib/refs/context';
 
 	let { data } = $props();
@@ -18,14 +19,16 @@
 <h1>{data.project.title}</h1>
 <p class="fm">---</p>
 <p><span class="fm-key">summary:</span> {data.project.summary}</p>
-<p><span class="fm-key">period:</span> {data.project.period.toLowerCase()}</p>
+<p><span class="fm-key">period:</span> {logPeriod(data.project.period)}</p>
 <p>
 	<span class="fm-key">role:</span> {data.project.role} · <span class="fm-key">type:</span>
 	{data.project.domain}
 </p>
-<p><span class="fm-key">stack:</span> {#each data.project.techStack as tech, i (tech)}{#if i > 0}
-		·
-	{/if}<TechRef name={tech} />{/each}
+<!-- Explicit separator: Svelte trims a bare " · " to "·", which made the row one unbreakable word.
+     The no-break space keeps the dot on the end of a line instead of starting the next one. -->
+<p><span class="fm-key">stack:</span> {#each data.project.techStack as tech, i (tech)}{#if i > 0}{' · '}{/if}<TechRef
+			name={tech}
+		/>{/each}
 </p>
 <p class="fm">---</p>
 {#if data.project.repoUrl || data.project.demoUrl}
@@ -53,9 +56,8 @@
 </p>
 
 <style>
-	/* Decorative, but readable: nord-3 alone is 1.69:1; this mix is about 3.4:1. */
 	.fm {
-		color: color-mix(in srgb, var(--nord-3) 65%, var(--nord-4));
+		color: var(--marker);
 	}
 
 	.fm-key {
@@ -65,12 +67,6 @@
 	.fm-links {
 		display: flex;
 		gap: 2ch;
-	}
-
-	/* A blank line above each section heading (except the first) and between paragraphs, as in rendered markdown. */
-	.project-body :global(h2:not(:first-child)),
-	.project-body :global(p + p) {
-		margin-top: 1lh;
 	}
 
 	.pager {
