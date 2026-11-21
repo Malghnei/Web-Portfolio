@@ -10,7 +10,8 @@ The site is a Neovim-style editor in the browser. Each page is a buffer with lin
 | --- | --- |
 | `h` `j` `k` `l`, `w` `b` `e`, `0` `$`, `gg` `G` | Move the cursor (counts work: `5j`) |
 | `v` / `V`, then `y` | Visual / visual-line select, then yank to the clipboard |
-| `Space` then `h` / `a` / `p` | Go to home, about or projects |
+| `Space` then `h` / `a` / `p` | Go to home, about or projects (a popup lists them while you wait) |
+| `/` | Search projects |
 | `p` / `a` / `t` on home | Projects, about, terminal |
 | `Enter` | Open whatever the preview pane is showing |
 | `Ctrl` + `/` | Toggle the terminal (`help`, `ls`, `cd`, `cat`, `open`, `clear`, `exit`) |

@@ -8,15 +8,13 @@
 	let { data } = $props();
 
 	const ROLE_OPTIONS: ProjectFilters['role'][] = ['all', 'solo', 'contribution'];
-	const DOMAIN_OPTIONS: ProjectFilters['domain'][] = ['all', 'software', 'hardware'];
 
 	let query = $state('');
 	let role = $state<ProjectFilters['role']>('all');
-	let domain = $state<ProjectFilters['domain']>('all');
 	let selectedTags = $state<string[]>([]);
 
 	// Show the most-used tags first; the rest sit behind "+N more".
-	const TAG_LIMIT = 8;
+	const TAG_LIMIT = 5;
 	let showAllTags = $state(false);
 
 	const tagCounts = $derived(
@@ -39,7 +37,14 @@
 		showAllTags ? allTags : allTags.filter((tag) => topTags.has(tag) || selectedTags.includes(tag))
 	);
 
-	const filtered = $derived(filterProjects(data.projects, { query, role, domain, tags: selectedTags }));
+	// No type filter: every project is software, so it could never narrow the list.
+	const filtered = $derived(filterProjects(data.projects, { query, role, domain: 'all', tags: selectedTags }));
+
+	const clearFilters = () => {
+		query = '';
+		role = 'all';
+		selectedTags = [];
+	};
 
 	// Client-only: pages are prerendered, so search params are unavailable at build time.
 	// Re-applies only when the URL's tag list changes (same-route navigation, back/forward),
@@ -88,16 +93,6 @@
 	</span>
 </p>
 <p class="opts">
-	<span class="opt-label">type:</span>
-	<span class="opt-list">
-	{#each DOMAIN_OPTIONS as option (option)}
-		<button type="button" class="opt" aria-pressed={domain === option} onclick={() => (domain = option)}>
-			{domain === option ? `[${option}]` : option}
-		</button>
-	{/each}
-	</span>
-</p>
-<p class="opts">
 	<span class="opt-label">tags:</span>
 	<span class="opt-list">
 	{#each visibleTags as tag (tag)}
@@ -125,7 +120,9 @@
 {#each filtered as project (project.slug)}
 	<ProjectCard {project} />
 {:else}
-	<p class="empty">-- no matches --</p>
+	<p class="empty">
+		-- no matches -- <button type="button" class="more" onclick={clearFilters}>clear filters</button>
+	</p>
 {/each}
 
 <style>

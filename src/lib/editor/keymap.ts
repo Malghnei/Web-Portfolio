@@ -11,6 +11,7 @@ export type KeyAction =
 	| { type: 'yank' }
 	| { type: 'exitVisual' }
 	| { type: 'toggleTerminal' }
+	| { type: 'search' }
 	| { type: 'toggleHelp' }
 	| { type: 'closeHelp' }
 	| { type: 'open' };
@@ -35,6 +36,7 @@ export type KeyResult =
 	| { kind: 'passthrough' };
 
 export const SEQUENCE_TIMEOUT_MS = 800;
+export const LEADER_TIMEOUT_MS = 1500;
 
 const LEADER = ' ';
 const LEADER_PAGES: Record<string, NavPath> = { h: '/', a: '/about/', p: '/projects/' };
@@ -102,6 +104,8 @@ export const resolveKey = (pending: string, input: KeyInput): KeyResult => {
 			return action({ type: 'visual', mode: 'line' });
 		case 'y':
 			return input.visual ? action({ type: 'yank' }) : passthrough;
+		case '/':
+			return action({ type: 'search' });
 		case '?':
 			return action({ type: 'toggleHelp' });
 		case 'Enter':
