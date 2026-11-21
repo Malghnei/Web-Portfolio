@@ -1,4 +1,5 @@
 import { getProjectRawBySlug } from '$lib/content/projects';
+import { logPeriod } from '$lib/data/experience';
 import { experienceTimeline, siteContent } from '$lib/data/site';
 import { fileForPath } from '$lib/editor/files';
 import type { ProjectEntry } from '$lib/types';
@@ -42,7 +43,7 @@ const experienceFile = () =>
 		'',
 		...experienceTimeline.map(
 			(entry) =>
-				`- ${entry.period} | ${entry.title} @ ${entry.organization} (${entry.category})\n  ${entry.description}`
+				`- ${logPeriod(entry.period)} |${entry.title} @ ${entry.organization} (${entry.category})\n  ${entry.description}`
 		)
 	].join('\n');
 

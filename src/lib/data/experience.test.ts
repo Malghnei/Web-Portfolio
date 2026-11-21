@@ -47,6 +47,11 @@ describe('logPeriod', () => {
 		expect(logPeriod('Oct. 2023 - Present')).toBe('2023-10 → now');
 	});
 
+	it('gives a single month as year-month', () => {
+		expect(logPeriod('Apr. 2026')).toBe('2026-04');
+		expect(logPeriod('Sept. 2025')).toBe('2025-09');
+	});
+
 	it('falls back to formatPeriod on dates it cannot read', () => {
 		expect(logPeriod('Summer 2024 - Fall 2024')).toBe('summer 2024 → fall 2024');
 	});
