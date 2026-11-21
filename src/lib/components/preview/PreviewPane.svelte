@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ExtLink from '$lib/components/refs/ExtLink.svelte';
-	import { CATEGORY_COLOR, formatPeriod } from '$lib/data/experience';
+	import { CATEGORY_COLOR, logPeriod } from '$lib/data/experience';
 	import { experienceTimeline, siteContent } from '$lib/data/site';
 	import { editor } from '$lib/editor/state.svelte';
 	import { getPreview } from '$lib/preview/getPreview';
@@ -64,7 +64,7 @@
 				<p class="blank"></p>
 			{/if}
 			<p><span class="key">summary:</span> {project.summary}</p>
-			<p><span class="key">period:</span> {project.period.toLowerCase()}</p>
+			<p><span class="key">period:</span> {logPeriod(project.period)}</p>
 			<p>
 				<span class="key">role:</span> {project.role} · <span class="key">type:</span>
 				{project.domain}
@@ -94,7 +94,7 @@
 				{#each model.projects as project (project.slug)}
 					<li>
 						<span class="dim">{'- '}</span><a href={`/projects/${project.slug}/`}>{project.title}</a>
-						<span class="dim">·</span> <span class="period">{project.period.toLowerCase()}</span>
+						<span class="dim">·</span> <span class="period">{logPeriod(project.period)}</span>
 					</li>
 				{/each}
 			</ul>
@@ -107,7 +107,7 @@
 			<p><strong>{entry.title}</strong></p>
 			<p class="blank"></p>
 			<p><span class="key">organization:</span> {entry.organization}</p>
-			<p><span class="key">period:</span> {formatPeriod(entry.period)}</p>
+			<p><span class="key">period:</span> {logPeriod(entry.period)}</p>
 			<p>
 				<span class="key">category:</span>
 				<span style={`color:${CATEGORY_COLOR[entry.category]}`}>{entry.category.toLowerCase()}</span>

@@ -4,7 +4,7 @@
 </script>
 
 {#if page.status === 404}
-	<p class="error">E37: no such file: {page.url.pathname}</p>
+	<p class="error">E484: can't open file {page.url.pathname}</p>
 {:else}
 	<p class="error">E{page.status}: {page.error?.message}</p>
 {/if}

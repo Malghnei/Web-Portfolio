@@ -2,6 +2,7 @@ import { mdsvex } from 'mdsvex';
 import adapter from '@sveltejs/adapter-static';
 import { relative, sep } from 'node:path';
 import rehypeProse from './src/lib/refs/rehypeProse.js';
+import rehypeBlankLines from './src/lib/editor/rehypeBlankLines.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -31,7 +32,7 @@ const config = {
 			entries: ['*', '/terminal/']
 		}
 	},
-	preprocess: [mdsvex({ extensions: ['.svx', '.md'], rehypePlugins: [rehypeProse] })],
+	preprocess: [mdsvex({ extensions: ['.svx', '.md'], rehypePlugins: [rehypeProse, rehypeBlankLines] })],
 	extensions: ['.svelte', '.svx', '.md']
 };
 

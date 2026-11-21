@@ -18,7 +18,7 @@ Most portfolios are a page you scroll. This one is styled like my editor: you ca
 
 Both views read from the same Markdown files, so they never drift out of sync.
 
-## How It Works
+## How it works
 
 - Each project is a Markdown file with typed metadata, validated when the site builds
 - Dynamic routes turn each file into its own page, prerendered as a static site

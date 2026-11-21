@@ -21,11 +21,12 @@ const isoMonth = (date: string) => {
 	return month < 0 ? null : `${m![2]}-${String(month + 1).padStart(2, '0')}`;
 };
 
-// Fixed width for the log's date column: "Sept. 2025 - May 2026" -> "2025-09 → 2026-05".
+// The one date format shown anywhere on the site, fixed width for the log's date column:
+// "Sept. 2025 - May 2026" -> "2025-09 → 2026-05", "Apr. 2026" -> "2026-04".
 // Falls back to formatPeriod when a date doesn't parse.
 export const logPeriod = (period: string) => {
-	const [from, to] = period.split(' - ').map(isoMonth);
-	return from && to ? `${from} → ${to}` : formatPeriod(period);
+	const dates = period.split(' - ').map(isoMonth);
+	return dates.every(Boolean) ? dates.join(' → ') : formatPeriod(period);
 };
 
 const slug = (text: string) =>

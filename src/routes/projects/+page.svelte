@@ -79,22 +79,27 @@
 </p>
 <p class="opts">
 	<span class="opt-label">role:</span>
+	<span class="opt-list">
 	{#each ROLE_OPTIONS as option (option)}
 		<button type="button" class="opt" aria-pressed={role === option} onclick={() => (role = option)}>
 			{role === option ? `[${option}]` : option}
 		</button>
 	{/each}
+	</span>
 </p>
 <p class="opts">
 	<span class="opt-label">type:</span>
+	<span class="opt-list">
 	{#each DOMAIN_OPTIONS as option (option)}
 		<button type="button" class="opt" aria-pressed={domain === option} onclick={() => (domain = option)}>
 			{domain === option ? `[${option}]` : option}
 		</button>
 	{/each}
+	</span>
 </p>
 <p class="opts">
 	<span class="opt-label">tags:</span>
+	<span class="opt-list">
 	{#each visibleTags as tag (tag)}
 		<button
 			type="button"
@@ -111,6 +116,7 @@
 			{showAllTags ? '− less' : `+${allTags.length - visibleTags.length} more`}
 		</button>
 	{/if}
+	</span>
 </p>
 <hr />
 {#if filtered.length}
@@ -155,7 +161,14 @@
 		color: var(--nord-9);
 	}
 
+	/* Label column plus wrapping options, so a wrapped option hangs under the first one, not the label. */
 	.opts {
+		display: grid;
+		grid-template-columns: 6ch minmax(0, 1fr);
+		column-gap: 1ch;
+	}
+
+	.opt-list {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0 2ch;
@@ -202,11 +215,9 @@
 		color: var(--nord-9);
 	}
 
-	.count {
-		color: var(--nord-9);
-	}
-
+	/* Same "-- …" comment voice as "experience -- 4 roles" on the about page. */
+	.count,
 	.empty {
-		color: var(--nord-13);
+		color: var(--comment);
 	}
 </style>

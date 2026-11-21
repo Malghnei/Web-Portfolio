@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Banner from '$lib/components/Banner.svelte';
 	import Blank from '$lib/components/editor/Blank.svelte';
+	import ExtLink from '$lib/components/refs/ExtLink.svelte';
 	import { siteContent } from '$lib/data/site';
 	import { openTerminal } from '$lib/editor/state.svelte';
 	import { onMount } from 'svelte';
@@ -21,21 +22,21 @@
 <div class="dash" class:decoding>
 	<Banner name={siteContent.name} bind:decoding />
 	<p class="role">{siteContent.role}</p>
-	<p class="status"><span aria-hidden="true">●</span> {siteContent.status.toLowerCase()}</p>
+	<p class="status"><span aria-hidden="true">●</span> {siteContent.status}</p>
 	<Blank />
 	<a class="line menu-row" href="/projects/" data-cursor-start>
 		<span class="key">p</span><span class="label">projects</span><span class="leader" aria-hidden="true"></span><span class="note">{data.projectCount} files</span>
 	</a>
 	<a class="line menu-row" href="/about/">
-		<span class="key">a</span><span class="label">about</span><span class="leader" aria-hidden="true"></span><span class="note">experience, setup</span>
+		<span class="key">a</span><span class="label">about</span><span class="leader" aria-hidden="true"></span><span class="note">experience, contact</span>
 	</a>
 	<button type="button" class="line menu-row" onclick={openTerminal}>
 		<span class="key">t</span><span class="label">terminal</span><span class="leader" aria-hidden="true"></span><span class="note">ls, cat, open</span>
 	</button>
 	<p class="contact">
-		<a href={emailHref}>email</a>
+		<ExtLink href={emailHref} label="email" />
 		{#each siteContent.links.items as link (link.href)}
-			{' '}<a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
+			{' '}<ExtLink href={link.href} label={link.label} />
 		{/each}
 	</p>
 	<Blank />

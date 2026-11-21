@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TechRef from '$lib/components/refs/TechRef.svelte';
+	import { logPeriod } from '$lib/data/experience';
 	import { encodeTarget } from '$lib/preview/target';
 	import type { ProjectFrontmatter } from '$lib/types';
 
@@ -12,7 +13,7 @@
 		<span class="label title-wrap"
 			><a class="title" href={`/projects/${project.slug}/`}>{project.title}</a></span
 		>
-		<span class="label period">{project.role} · {project.domain} · {project.period}</span>
+		<span class="label period">{project.role} · {project.domain} · {logPeriod(project.period)}</span>
 	</span>
 	<span class="line row">{project.summary}</span>
 	<span class="line row meta">
@@ -20,7 +21,12 @@
 			<span class="tech"><TechRef name={tech} /></span>
 		{/each}
 	</span>
-	<span class="line edge" aria-hidden="true"><span class="label open">open →</span></span>
+	<!-- On a narrow buffer the period moves down here, so the top edge never wraps. -->
+	<span class="line edge"
+		><span class="label period narrow">{logPeriod(project.period)}</span><span class="label open" aria-hidden="true"
+			>open →</span
+		></span
+	>
 </article>
 
 <style>
@@ -159,6 +165,23 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0 1.5ch;
+	}
+
+	.period.narrow {
+		display: none;
+		margin: 0 0 0 1ch;
+	}
+
+	/* Title plus "contribution · software · 2026-04" no longer fits one line: the top edge keeps
+	   the title, the bottom edge takes the date, and role/type stay on the filters and the page. */
+	@container buffer (width < 560px) {
+		.edge:first-child .period {
+			display: none;
+		}
+
+		.period.narrow {
+			display: block;
+		}
 	}
 
 </style>
